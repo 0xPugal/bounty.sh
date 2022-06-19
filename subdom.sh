@@ -7,7 +7,7 @@ assetfinder --subs-only $1 | tee -a assetfinder.txt
 
 #Amass started...
 
-amass enum -passive -noaltds -norecursive -d $1 -config ~/.config/amass/config.ini -o amass.txt
+amass enum -passive -d $1 -config ~/.config/amass/config.ini -o amass.txt
 
 
 #SubFinder started...
