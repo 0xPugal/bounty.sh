@@ -21,49 +21,42 @@ cat <<"EOF"
 EOF
 
 echo ""
-echo ""
 sleep 1
 
 mkdir -p ~/bounty.sh/recon
-cd ~/bounty.sh/Recon/
+cd ~/bounty.sh/recon/
 ##############################################################################################################################
 
-#SubDomain Enumeration Started...
-echo "-----------------------------------"
-echo "...Subdomain enumeration started..."
-echo "-----------------------------------"
+#Variables
+amass=~/.config/amass/config.ini
+subfinder=~/.config/subfinder/provider-config.yaml
+resolver=~/bounty.sh/wordlists/resolvers.txt
+dns=~/bounty.sh/wordlists/dns.txt
+fuzz=~/bounty.sh/wordlists/fuzz.txt
+echo ""
 
-#Assetfinder started...
+#SubDomain Enumeration...
 assetfinder --subs-only $1 | tee -a ~/bounty.sh/recon/$1/assetfinder.txt
-
-#Amass started...
-amass enum -passive -d $1 -config ~/.config/amass/config.ini -o ~/bounty.sh/recon/$1/amass.txt
-
-#SubFinder started...
-subfinder -silent -d $1 -pc ~/.config/subfinder/provider-config.yaml -o ~/bounty.sh/recon/$1/subfinder.txt
-
-#Findomain started...
+amass enum -passive -d $1 -config $amass -o ~/bounty.sh/recon/$1/amass.txt
+subfinder -silent -all -d $1 -pc $subfinder -o ~/bounty.sh/recon/$1/subfinder.txt
 findomain-linux -t $1 --quiet | tee -a ~/bounty.sh/recon/$1/findomain.txt
+gau -subs $1 | unfurl -u domains | tee -a ~/bounty.sh/recon/$1/gau.txt
+waybackurls $1 | unfurl -u domains | tee -a ~/bounty.sh/recon/$1/waybackurls.txt
+ctfr -d $1 | tee -a ~/bounty.sh/recon/$1/ctfr.txt
+puredns $dns $1 --resolvers-trusted $resolver --rate-limit-trusted 200 -q | tee -a ~/bounty.sh/recon/$1/puredns.txt
+#Sorting
+cat ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt gau.txt waybackurls.txt ctfr.txt puerdns.txt | sort -u | tee -a ~/bounty.sh/recon/$1/all.txt
+rm ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt gau.txt waybackurls.txt ctfr.txt puredns.txt
 echo ""
-echo ""
-#Removing Duplicates && Sorting 
-sleep 1
-echo "----------------------------"
-echo "...Sorting the subdomains..."
-echo "----------------------------"
 
-cat ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt | sort -u | tee -a ~/bounty.sh/recon/$1/all.txt
-rm ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt
-echo ""
-echo ""
-sleep 1
+#Resolving domains
+cat ~/bounty.sh/recon/$1/all.txt | puredns resolve --resolvers-trusted $resolver --rate-limit-trusted 200 -q | tee ~/bounty.sh/recon/$1/resolved.txt
+
 #Checking for live domains
-echo "-------------------------------"
-echo "...Checking for Live Domains..."
-echo "-------------------------------"
+httpx -l ~/bounty.sh/recon/$1/all.txt -p 80,8080,443,8443,9000,8000 -rl 100 -timeout 30 -o ~/bounty.sh/recon/$1/alive.txt
 
-httpx -l ~/bounty.sh/recon/$1/all.txt -p 80,8080,443,8443,9000,8000 -o ~/bounty.sh/recon/$1/alive.txt
-echo ""
+#Running Portscan
+naabu -l ~/bounty.sh/recon/$1/resolved.txt -port 0-65535 -c 10 -rl 100 -o open-ports.txt
 #############################################################################################################################
 
 echo ""
