@@ -60,95 +60,73 @@ echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
 echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> $HOME/.bashrc
 echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile
 
+echo ""
 
-sleep 1
 echo "Installing tools..."
 
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-sudo cp ~/go/bin/subfinder /usr/local/bin
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest;
 echo ""
 
 go get -u github.com/tomnomnom/assetfinder
-sudo cp ~/go/bin/assetfinder /usr/local/bin
 echo ""
 
 go install -v github.com/OWASP/Amass/v3/...@master
-sudo cp ~/go/bin/amass /usr/local/bin
 echo ""
 
 cd ~/bounty.sh/Tools/
-wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux
-chmod +x findomain-linux
-sudo cp findomain-linux /usr/local/bin
+wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux; chmod +x findomain-linux; sudo cp findomain-linux /usr/local/bin
 echo ""
 
 go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
-sudo cp ~/go/bin/naabu /usr/local/bin
 echo ""
 
 cd ~/bounty.sh/Tools/
-wget "https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip"
-unzip aquatone_linux_amd64_1.7.0.zip
-sudo mv aquatone_linux_amd64_1.7.0 /usr/local/bin
+wget "https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip" && unzip aquatone_linux_amd64_1.7.0.zip && sudo mv aquatone_linux_amd64_1.7.0 /usr/local/bin
 echo ""
 
-go install github.com/hakluke/hakrawler@latest
-sudo cp ~/go/bin/hakrawler /usr/local/bin
+go install github.com/hakluke/hakrawler@latest;
 echo ""
 
-go install github.com/tomnomnom/waybackurls@latest
-sudo cp ~/go/bin/waybackurls /usr/local/bin
+go install github.com/tomnomnom/waybackurls@latest;
 echo ""
 
-go install github.com/lc/gau/v2/cmd/gau@latest
-sudo cp ~/go/bin/gau /usr/local/bin
+go install github.com/lc/gau/v2/cmd/gau@latest;
 echo ""
 
-go install github.com/003random/getJS@latest
-sudo cp ~/go/bin/getJS /usr/local/bin
+go install github.com/003random/getJS@latest;
 echo ""
 
 cd ~/bounty.sh/Tools/
-git clone https://github.com/devanshbatham/ParamSpider.git
-cd ParamSpider
-pip3 install -r requirements.txt
+git clone https://github.com/devanshbatham/ParamSpider.git; cd ParamSpider; pip3 install -r requirements.txt
 echo ""
 
 go install github.com/ffuf/ffuf@latest
-sudo cp ~/go/bin/ffuf /usr/local/bin
 echo ""
-sleep 1
 
 cd ~/bounty.sh/Tools/
 git clone https://github.com/s0md3v/Corsy.git
 cd Corsy
 pip3 install -r requirements.txt
-cd ../
 echo ""
 
 cd ~/bounty.sh/Tools/
 git clone https://github.com/MichaelStott/CRLF-Injection-Scanner.git
 cd CRLF-Injection-Scanner
 sudo python3 setup.py install
-cd ../
 echo ""
 
 cd ~/bounty.sh/Tools/
-git clone https://github.com/defparam/smuggler.git
-cd smuggler/
-cd ../
+git clone https://github.com/defparam/smuggler.git; cd smuggler/
 echo ""
 
-go install github.com/tomnomnom/qsreplace@latest
-sudo cp ~/go/bin/qsreplace /usr/local/bin
+go install github.com/tomnomnom/qsreplace@latest;
 echo ""
 
 cd ~/bounty.sh/Tools/
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
 echo ""
 
-go install github.com/hahwul/dalfox/v2@latest
-sudo cp ~/go/bin/dalfox /usr/local/bin
+go install github.com/hahwul/dalfox/v2@latest;
 echo ""
 
 cd ~/bounty.sh/Tools/
@@ -157,36 +135,26 @@ echo ""
 
 cd ~/bounty.sh/Tools/
 git clone https://github.com/internetwache/GitTools.git
-cd ../
 echo ""
 
 cd ~/bounty.sh/Tools/
 git clone https://github.com/SharonBrizinov/s3viewer.git
-cd ../
 echo ""
 
 go get github.com/haccer/subjack
-sudo cp ~/go/bin/subjack /usr/local/bin
 echo ""
 
 go get github.com/Ice3man543/SubOver
-sudo cp ~/go/bin/SubOver /usr/local/bin
 echo ""
 
 go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
-sudo cp ~/go/bin/nuclei /usr/local/bin
 echo ""
 
 cd ~/bounty.sh/Tools/
-git clone https://github.com/edoardottt/cariddi.git
-cd cariddi
-go get
-make linux
-cd ../
+git clone https://github.com/edoardottt/cariddi.git; cd cariddi; go get; make linux
 echo ""
 
 go install github.com/tomnomnom/httprobe@latest
-sudo cp ~/go/bin/httprobe /usr/local/bin
 echo ""
 
 echo "###########################################################################################"
