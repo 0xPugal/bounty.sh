@@ -1,9 +1,9 @@
-# Bounty $$$$
-A small Bash Script to earn some $$$$
-
+# Bounty $$$
+A small Bash Script to earn some $$$
 
 ## Note
-This Tool is Under Developement ::
++ This Tool is Under Developement ::
++ PRs are welcomed
 
 ## Usage
 ```
