@@ -87,9 +87,6 @@ for URL in $(<alive.txt); do ( ffuf -u "${URL}/FUZZ" -w ~/bounty.sh/wordlists/fu
 echo ""
 
 #Gathering URLs....
-echo "----------------------------------------------"
-echo "...Gathering URLs - Waybackurls,Gau,Gauplus..."
-echo "----------------------------------------------"
 cd ~/bounty.sh/recon/$1/
 cat alive.txt | waybackurls | uro | tee -a way.txt 
 cat alive.txt | gauplus | uro | tee -a gaupl.txt 
@@ -117,7 +114,4 @@ echo ""
 
 ##################################################################################################################################
 
-
-echo ""
-echo ""
 echo "This tool is under developement :)"
