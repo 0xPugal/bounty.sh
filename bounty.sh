@@ -15,7 +15,7 @@ cat <<"EOF"
 ||                                                     \______/  ||
 ||                                                               ||
 ||                                                               ||
-||        Made with ❤️ by Pugalarasan - aka 🧑‍💻 litt1eb0y        ||
+||        Made with ❤️ by Pugalarasan - aka 🧑‍💻 0xPugazh           ||
 ||      Run this script against your target to earn 💰💰💰       ||
  \===============================================================/
 EOF
@@ -56,11 +56,9 @@ cat ~/bounty.sh/recon/$1/all.txt | puredns resolve --resolvers-trusted $resolver
 httpx -l ~/bounty.sh/recon/$1/all.txt -p 80,8080,443,8443,9000,8000 -rl 100 -timeout 30 -o ~/bounty.sh/recon/$1/alive.txt
 
 #Running Portscan
-naabu -l ~/bounty.sh/recon/$1/resolved.txt -port 0-65535 -c 10 -rl 100 -o open-ports.txt
+naabu -l ~/bounty.sh/recon/$1/resolved.txt -port 0-65535 -o open-ports.txt
 
 #Subdomain Takeover
-python3 ~/bounty.sh/tools/sub404/sub404.py -f ~/bounty.sh/recon/$1/alive.txt -o ~/bounty.sh/recon/$1/sub404.txt
-echo ""
 cd ~/bounty.sh/recon/$1/
 SubOver -l alive.txt -v | tee -a subover.txt
 echo ""
@@ -68,17 +66,18 @@ subjack -w alive.txt -ssl -o subjack.txt
 echo ""
 
 #Vulnerability Scanning - Nuclei...
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity info -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei-info.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity low -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei-low.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity medium -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei-medium.txt;
-nuclei -l ~/boutny.sh/recon/$1/alive.txt -severity high -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei-high.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity critical -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei-critical.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity info -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_info.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity low -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_low.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity medium -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_medium.txt;
+nuclei -l ~/boutny.sh/recon/$1/alive.txt -severity high -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_high.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity critical -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_critical.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -tags cves -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_cves.txt
 echo ""
 
 #Smuggler started...
 cd ~/bounty.sh/recon/$1/
-cat alive.txt | python3 ~/bounty.sh/tools/smuggler/smuggler.py -m POST -q;
-cat alive.txt | python3 ~/bounty.sh/tools/smuggler/smuggler.py -m GET -q 
+cat alive.txt | python3 ~/bounty.sh/tools/smuggler/smuggler.py -m POST -q | tee ~/bounty.sh/recon/$1/smuggler-post.txt
+cat alive.txt | python3 ~/bounty.sh/tools/smuggler/smuggler.py -m GET -q | tee ~/bounty.sh/recon/$1/smuggler-get.txt
 echo ""
 
 #Fuzzing started - ffuf...
@@ -91,8 +90,10 @@ cd ~/bounty.sh/recon/$1/
 cat alive.txt | waybackurls | uro | tee -a way.txt 
 cat alive.txt | gauplus | uro | tee -a gaupl.txt 
 cat alive.txt | gau | uro | tee -a gau.txt 
-cat way.txt gaupl.txt gau.txt | sort -u | tee -a waybackurls.txt
-rm way.txt gaupl.txt gau.txt
+katana -list alive.txt -o katana.txt
+cat alive.txt | hakrawler | tee -a hakrawler.txt
+cat way.txt gaupl.txt gau.txt katana.txt hakrawler.txt | sort -u | tee -a waybackurls.txt
+rm way.txt gaupl.txt gau.txt katana.txt hakrawler.txt 
 echo ""
 
 #CRLF scanning
