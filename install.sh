@@ -83,6 +83,7 @@ go install github.com/tomnomnom/httprobe@latest;
 git clone https://github.com/epinna/tplmap.git; cd tplmap/; chmod +x tplmap.py; cd ..;
 GO111MODULE=on go install github.com/dwisiswant0/crlfuzz/cmd/crlfuzz@latest;
 git clone https://github.com/s0md3v/XSStrike.git; cd XSStrike; pip3 install -r requirements.txt; cd ../;
+GO111MODULE=on go install github.com/dwisiswant0/crlfuzz/cmd/crlfuzz@latest
 
 
 echo "${bold}${red}This Tool is in under Devepement${end}"

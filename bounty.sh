@@ -97,16 +97,22 @@ rm way.txt gaupl.txt gau.txt katana.txt hakrawler.txt
 echo ""
 
 #CRLF scanning
-cd ~/bounty.sh/tools/CRLF-Injection-Scanner
-python3 crlf.py scan -i ~/bounty.sh/recon/$1/all.txt | egrep -v "No" | tee -a ~/bounty.sh/recon/$1/crlf.txt
+cd ~/bounty.sh/recon/$1/
+crlfuzz -l alive.txt -X GET -s -o crlf-get.txt &&
+crlfuzz -l alive.txt -X POST -s -o crlf-post.txt &&
+cat crlf-get.txt crlf-post.txt | tee crlf.txt
+rm crlf-*
 echo ""
 
 #Gathering JS Files
 cd ~/bounty.sh/recon/$1/
 cat alive.txt | waybackurls | grep -iE '\.js'|grep -iEv '(\.jsp|\.json)' >> js1.txt &&
-cat alive.txt | gau | grep -iE '\.js'|grep -iEv '(\.jsp|\.json)' >> js3.txt &&
+cat alive.txt | gau | grep -iE '\.js'|grep -iEv '(\.jsp|\.json)' >> js2.txt &&
+cat alive.txt | hakrwler | grep -iE '\.js' | grep -iEv '(\.jsp|\.json)' >> js3.txt &&
+katana -list alive.txt | grep -iE '\.js' | grep -iEv '(\.jsp|\.json)' >> js4.txt &&
 subjs -i alive.txt | tee -a subjs.txt &&
-cat js1.txt js2.txt js3.txt subjs.txt | sort -u | tee -a js-files.txt
+cat js1.txt js2.txt js3.txt js4.txt subjs.txt | sort -u | tee -a js-files.txt
+rm js1.txt js2.txt js3.txt js4.txt subjs.txt
 echo ""
 
 #Parameter fuzzing
