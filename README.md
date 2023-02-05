@@ -1,5 +1,5 @@
 # Bounty $$$
-A small Bash Script to earn some $$$
+**A small Bash Script to do recon against your target and helps to earn some $$$**
 
 ## Note
 + This Tool is Under Developement ::
