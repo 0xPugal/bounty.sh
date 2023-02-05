@@ -7,7 +7,7 @@ blue="\e[34m"
 green="\e[32m"
 end="\e[0m"
 
-echo -e "${bold}${blue}Made with${end} ${bold}${red}<3${end} ${bold}${blue}by Pugalarasan - @0xlittleboy${end}"
+echo -e "${bold}${blue}Made with${end} ${bold}${red}<3${end} ${bold}${blue}by Pugalarasan - @0xPugazh${end}"
 
 cd $HOME
 mkdir -p bounty.sh/tools
@@ -60,12 +60,10 @@ go get -u github.com/tomnomnom/assetfinder;
 go install -v github.com/OWASP/Amass/v3/...@master;
 wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux; chmod +x findomain-linux; sudo cp findomain-linux /usr/local/bin;
 go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
-wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux; chmod +x findomain-linux; sudo cp findomain-linux /usr/local/bin
 go install github.com/hakluke/hakrawler@latest;
 go install github.com/tomnomnom/waybackurls@latest;
 go install github.com/lc/gau/v2/cmd/gau@latest;
 go install github.com/003random/getJS@latest;
-go install github.com/ffuf/ffuf@latest
 git clone https://github.com/s0md3v/Corsy.git; cd Corsy; pip3 install -r requirements.txt; cd ../
 git clone https://github.com/devanshbatham/ParamSpider.git; cd ParamSpider; pip3 install -r requirements.txt; cd ../
 git clone https://github.com/defparam/smuggler.git; cd smuggler/; ../
