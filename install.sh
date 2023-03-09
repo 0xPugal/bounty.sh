@@ -52,6 +52,8 @@ echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
 echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> $HOME/.bashrc
 echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile
 
+source $HOME/.bashrc
+source $HOME/.profile
 
 echo -e "${green}${bold}Installing Tools...${end}"
 cd ~/bounty.sh/tools/
