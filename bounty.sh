@@ -33,6 +33,10 @@ subfinder=~/.config/subfinder/provider-config.yaml
 resolver=~/bounty.sh/wordlists/resolvers.txt
 dns=~/bounty.sh/wordlists/dns.txt
 fuzz=~/bounty.sh/wordlists/fuzz.txt
+CHAOS="YOUR_CHAOS_API_KEY"
+GITHUB="YOUR_GITHUB_API_KEY"
+GITLAB="YOUR_GITLAB_API_KEY"
+SHODAN="YOUR_SHODAN_API_KEY"
 echo ""
 
 #SubDomain Enumeration...
@@ -43,10 +47,10 @@ findomain-linux -t $1 --quiet | tee -a ~/bounty.sh/recon/$1/findomain.txt
 gau -subs $1 | unfurl -u domains | tee -a ~/bounty.sh/recon/$1/gau.txt
 waybackurls $1 | unfurl -u domains | tee -a ~/bounty.sh/recon/$1/waybackurls.txt
 ctfr -d $1 | tee -a ~/bounty.sh/recon/$1/ctfr.txt
-puredns $dns $1 --resolvers-trusted $resolver --rate-limit-trusted 200 -q | tee -a ~/bounty.sh/recon/$1/puredns.txt
+shuffledns -d $1 -w $dns -o ~/bounty.sh/recon/$1/shuffledns.txt
 #Sorting
-cat ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt gau.txt waybackurls.txt ctfr.txt puerdns.txt | sort -u | tee -a ~/bounty.sh/recon/$1/all.txt
-rm ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt gau.txt waybackurls.txt ctfr.txt puredns.txt
+cat ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt gau.txt waybackurls.txt ctfr.txt shuffledns.txt | sort -u | tee -a ~/bounty.sh/recon/$1/all.txt
+rm ~/bounty.sh/recon/$1/assetfinder.txt amass.txt subfinder.txt findomain.txt gau.txt waybackurls.txt ctfr.txt shuffledns.txt
 echo ""
 
 #Resolving domains
@@ -56,7 +60,7 @@ cat ~/bounty.sh/recon/$1/all.txt | puredns resolve --resolvers-trusted $resolver
 httpx -l ~/bounty.sh/recon/$1/all.txt -p 80,8080,443,8443,9000,8000 -rl 100 -timeout 30 -o ~/bounty.sh/recon/$1/alive.txt
 
 #Running Portscan
-naabu -l ~/bounty.sh/recon/$1/resolved.txt -port 0-65535 -o open-ports.txt
+naabu -l ~/bounty.sh/recon/$1/resolved.txt -port 0-65535 -nmap -o open-ports.txt
 
 #Subdomain Takeover
 cd ~/bounty.sh/recon/$1/
@@ -66,12 +70,12 @@ subjack -w alive.txt -ssl -o subjack.txt
 echo ""
 
 #Vulnerability Scanning - Nuclei...
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity info -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_info.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity low -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_low.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity medium -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_medium.txt;
-nuclei -l ~/boutny.sh/recon/$1/alive.txt -severity high -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_high.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity critical -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_critical.txt;
-nuclei -l ~/bounty.sh/recon/$1/alive.txt -tags cves -rl 100 -c 5 -o ~/bounty.sh/recon/$1/nuclei_cves.txt
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity info -rl 100 -c 10 -o ~/bounty.sh/recon/$1/nuclei_info.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity low -rl 100 -c 10 -o ~/bounty.sh/recon/$1/nuclei_low.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity medium -rl 100 -c 10 -o ~/bounty.sh/recon/$1/nuclei_medium.txt;
+nuclei -l ~/boutny.sh/recon/$1/alive.txt -severity high -rl 100 -c 10 -o ~/bounty.sh/recon/$1/nuclei_high.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -severity critical -rl 100 -c 10 -o ~/bounty.sh/recon/$1/nuclei_critical.txt;
+nuclei -l ~/bounty.sh/recon/$1/alive.txt -tags cves -rl 100 -c 10 -o ~/bounty.sh/recon/$1/nuclei_cves.txt
 echo ""
 
 #Smuggler started...
@@ -82,18 +86,18 @@ echo ""
 
 #Fuzzing started - ffuf...
 cd ~/bounty.sh/recon/$1/
-for URL in $(<alive.txt); do ( ffuf -u "${URL}/FUZZ" -w ~/bounty.sh/wordlists/fuzz.txt -v -mc 200 -ac ); done | tee -a ffuf.txt
+cat alive.txt | xargs -I @ sh -c 'ffuf -c -w $fuzz -u @ -mc 200 -ac -v | tee ~/bounty.sh/recon/$1/ffuf_get.txt'
+cat alive.txt | xargs -I @ sh -c 'ffuf -c -w $fuzz -u @ -mc 200 -ac -v | tee ~/bounty.sh/recon/$1/ffuf_post.txt'
 echo ""
 
 #Gathering URLs....
 cd ~/bounty.sh/recon/$1/
 cat alive.txt | waybackurls | uro | tee -a way.txt 
-cat alive.txt | gauplus | uro | tee -a gaupl.txt 
 cat alive.txt | gau | uro | tee -a gau.txt 
 katana -list alive.txt -o katana.txt
 cat alive.txt | hakrawler | tee -a hakrawler.txt
-cat way.txt gaupl.txt gau.txt katana.txt hakrawler.txt | sort -u | tee -a waybackurls.txt
-rm way.txt gaupl.txt gau.txt katana.txt hakrawler.txt 
+cat way.txt gau.txt katana.txt hakrawler.txt | sort -u | tee -a waybackurls.txt
+rm way.txt gau.txt katana.txt hakrawler.txt 
 echo ""
 
 #CRLF scanning
