@@ -19,6 +19,9 @@ go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 go install -v github.com/tomnomnom/anew@latest
 
 ## installing xray
+mkdir tools && cd tools
 wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip
 unzip xray_linux_amd64.zip
-sudo mv xray_linux_amd64 xray.yaml plugin.xray.yaml module.xray.yaml config.yaml /usr/bin/
+./xray_linux_amd64
+./xray_linux_amd64
+cd ../
