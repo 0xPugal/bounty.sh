@@ -28,3 +28,6 @@ chmod +x install.sh bounty.sh
 ```
 ./bounty.sh target.com
 ```
+
+## Credits
+Inspired from https://medium.com/@0xelkot/how-i-get-10-sqli-and-30-xss-via-automation-tool-cebbd9104479
