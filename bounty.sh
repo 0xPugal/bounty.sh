@@ -11,6 +11,8 @@ cat <<"EOF"
    Bug Bounty automation script - $$$ by @0xPugazh
 EOF
 
+echo " "
+
 domain=$1
 mkdir -p output/$1
 mkdir -p output/$1/nuclei
