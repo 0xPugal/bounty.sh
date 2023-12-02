@@ -22,6 +22,6 @@ go install -v github.com/tomnomnom/anew@latest
 mkdir tools && cd tools
 wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip
 unzip xray_linux_amd64.zip
-./xray_linux_amd64
-./xray_linux_amd64
-cd ../
+cp * /usr/bin/
+xray_linux_amd64
+xray_linux_amd64
