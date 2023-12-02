@@ -13,8 +13,9 @@ $ ./bounty.sh
 ```
 
 
-## Requirements
+## prerequisites
 + Download and Install golang from https://go.dev/doc/install
++ install xray manually if any error occurs
 
 ## Installation
 ```
