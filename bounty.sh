@@ -12,9 +12,9 @@ cat <<"EOF"
 EOF
 
 domain=$1
-mkdir output/$1
-mkdir output/$1/nuclei
-mkdir output/$1/xray
+mkdir -p output/$1
+mkdir -p output/$1/nuclei
+mkdir -p output/$1/xray
 
 ## Subdomain discovery
 subfinder -d $1 -silent -all | anew /root/bounty.sh/output/$1/subs.txt
