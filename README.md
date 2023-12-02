@@ -15,6 +15,15 @@ $ ./bounty.sh
 
 ## Requirements
 + Download and Install golang from https://go.dev/doc/install
+
+## Installation
+```
+git clone https://github.com/0xPugazh/bounty.sh
+cd bounty.sh
+chmod +x install.sh bounty.sh
+./install.sh
+```
+
 ## Usage
 ```
 ./bounty.sh target.com
