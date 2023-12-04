@@ -14,7 +14,6 @@ echo -e "$CYAN${BOLD}  / /_/ / /_/ / /_/ / / / / /_/ /_/ / (__  ) / / /    ${NC}
 echo -e "$CYAN${BOLD} /_____/\____/\__,_/_/ /_/\__/\__, (_)____/_/ /_/     ${NC}"
 echo -e "$CYAN${BOLD}                             /____/                   ${NC}"
 echo -e "$CYAN${BOLD} Bug Bounty automation script - $$$ by @0xPugazh      ${NC}"
-echo ""
 
 echo " "
 help() {
@@ -29,11 +28,11 @@ if [ "$1" == "--help" ]; then
     help
 fi
 
-domain=$2
-if [ -z "$domain" ]; then
-    echo -e "${RED}Please provide a domain.${NC}"
-    help
-fi
+#domain=$2
+#if [ -z "$domain" ]; then
+#    echo -e "${RED}Please provide a domain.${NC}"
+#    help
+#fi
 
 mkdir -p /root/bounty.sh/output/"$domain"
 mkdir -p /root/bounty.sh/output/"$domain"/xray
