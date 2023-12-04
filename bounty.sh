@@ -8,13 +8,13 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 
-echo -e "${BOLD}${CYAN}     ____                    __               __      ${NC}
-echo -e "${BOLD}${CYAN}    / __ )____  __  ______  / /___  __  _____/ /_     ${NC}
-echo -e "${BOLD}${CYAN}   / __  / __ \/ / / / __ \/ __/ / / / / ___/ __ \    ${NC}
-echo -e "${BOLD}${CYAN}  / /_/ / /_/ / /_/ / / / / /_/ /_/ / (__  ) / / /    ${NC}
-echo -e "${BOLD}${CYAN} /_____/\____/\__,_/_/ /_/\__/\__, (_)____/_/ /_/     ${NC}
-echo -e "${BOLD}${CYAN}                            /____/             
-echo -e "${BOLD}${CYAN} Bug Bounty automation script - $$$ by @0xPugazh      ${NC}
+echo -e "${BOLD}${CYAN}     ____                    __               __      ${NC}"
+echo -e "${BOLD}${CYAN}    / __ )____  __  ______  / /___  __  _____/ /_     ${NC}"
+echo -e "${BOLD}${CYAN}   / __  / __ \/ / / / __ \/ __/ / / / / ___/ __ \    ${NC}"
+echo -e "${BOLD}${CYAN}  / /_/ / /_/ / /_/ / / / / /_/ /_/ / (__  ) / / /    ${NC}"
+echo -e "${BOLD}${CYAN} /_____/\____/\__,_/_/ /_/\__/\__, (_)____/_/ /_/     ${NC}"
+echo -e "${BOLD}${CYAN}                            /____/                     ${NC}"
+echo -e "${BOLD}${CYAN} Bug Bounty automation script - $$$ by @0xPugazh      ${NC}"
 echo ""
 
 echo " "
