@@ -7,15 +7,16 @@ CYAN='\033[0;36m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-cat <<"EOF"
+cat <<EOF
+${BOLD}${CYAN}
     ____                    __               __  
    / __ )____  __  ______  / /___  __  _____/ /_ 
   / __  / __ \/ / / / __ \/ __/ / / / / ___/ __ \
  / /_/ / /_/ / /_/ / / / / /_/ /_/ / (__  ) / / /
 /_____/\____/\__,_/_/ /_/\__/\__, (_)____/_/ /_/ 
                             /____/             
-
-   Bug Bounty automation script - $$$ by @0xPugazh
+${NC}
+   ${CYAN}Bug Bounty automation script - $$$ by @0xPugazh ${NC}
 EOF
 
 echo " "
