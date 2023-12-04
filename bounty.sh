@@ -25,28 +25,22 @@ mkdir -p output/$1
 mkdir -p output/$1/nuclei
 mkdir -p output/$1/xray
 
-while [[ $# -gt 0 ]]
-do
-    key="$1"
-    case $key in
+while [ -n "$1" ]; do
+    case $1 in
         --help)
-            help
-            ;;
+            help ;;
         --vuln1)
             domain="$2"
-            shift
-            shift
-            ;;
+            shift ;;
         --vuln2)
             domain="$2"
-            shift
-            shift
-            ;;
+            shift ;;
         *)
             echo "Unknown option: $key"
-            display_help
+            help
             ;;
     esac
+    shift
 done
 
 
