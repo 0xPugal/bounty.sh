@@ -6,6 +6,7 @@ mkdir tools
 sudo apt update -y
 sudo apt install -y git
 sudo apt install -y wget
+sudo apt install unzip
 sudo apt install -y libpcap-dev
 
 ## Installing go tools
@@ -20,10 +21,12 @@ go install -v github.com/tomnomnom/anew@latest
 ## installing paramspider
 cd tools && git clone https://github.com/devanshbatham/paramspider
 cd paramspider
-pip install .
+sudo pip install .
 cd ../
 
 ## installing xray
 cd tools
 wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip
-unzip xray_linux_amd64.zip
+sudo unzip xray_linux_amd64.zip
+sudo ./xray_linux_amd64
+sudo ./xray_linux_amd64
