@@ -28,15 +28,15 @@ if [ "$1" == "--help" ]; then
     help
 fi
 
-#domain=$2
-#if [ -z "$domain" ]; then
-#    echo -e "${RED}Please provide a domain.${NC}"
-#    help
-#fi
+domain=$2
+if [ -z "$domain" ]; then
+    echo -e "${RED}Please provide a domain.${NC}"
+    help
+fi
 
-mkdir -p /root/bounty.sh/output/"$domain"
-mkdir -p /root/bounty.sh/output/"$domain"/xray
-mkdir -p /root/bounty.sh/output/"$domain"/nuclei
+mkdir -p /root/bounty.sh/output/$domain
+mkdir -p /root/bounty.sh/output/$domain/xray
+mkdir -p /root/bounty.sh/output/$domain/nuclei
 
 vuln1() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
