@@ -29,10 +29,10 @@ if [ "$1" == "--help" ]; then
 fi
 
 domain=$2
-if [ -z "$domain" ]; then
-    echo -e "${RED}Please provide a domain.${NC}"
-    help
-fi
+#if [ -z "$domain" ]; then
+#    echo -e "${RED}Please provide a domain.${NC}"
+#    help
+#fi
 
 mkdir -p /root/bounty.sh/output/$domain
 mkdir -p /root/bounty.sh/output/$domain/xray
