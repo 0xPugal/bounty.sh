@@ -12,7 +12,7 @@ echo -e "$CYAN${BOLD}    / __ )____  __  ______  / /___  __  _____/ /_     ${NC}
 echo -e "$CYAN${BOLD}   / __  / __ \/ / / / __ \/ __/ / / / / ___/ __ \    ${NC}"
 echo -e "$CYAN${BOLD}  / /_/ / /_/ / /_/ / / / / /_/ /_/ / (__  ) / / /    ${NC}"
 echo -e "$CYAN${BOLD} /_____/\____/\__,_/_/ /_/\__/\__, (_)____/_/ /_/     ${NC}"
-echo -e "$CYAN${BOLD}                            /____/                     ${NC}"
+echo -e "$CYAN${BOLD}                             /____/                   ${NC}"
 echo -e "$CYAN${BOLD} Bug Bounty automation script - $$$ by @0xPugazh      ${NC}"
 echo ""
 
