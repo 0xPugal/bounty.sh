@@ -51,9 +51,7 @@ vuln1() {
     cat /root/bounty.sh/output/$domain/open-ports.txt | httpx -silent | anew /root/bounty.sh/output/$domain/alive.txt   
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    for i in $(cat /root/bounty.sh/output/$domain/alive.txt); do 
-        xray_linux_amd64 ws --basic-crawler $i --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html
-    done
+    cat /root/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c '/root/bounty.sh/tools/./xray_linux_amd64 ws --basic-crawler $i --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
     cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity critical -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/critical.txt
     cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity high -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/high.txt
     cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity medium -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/medium.txt
@@ -73,7 +71,7 @@ vuln2() {
     paramspider -l /root/bounty.sh/output/$domain/alive.txt && mv results /root/bounty.sh/output/$domain/ 
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    cat /root/bounty.sh/output/$domain/results/$domain.txt | xargs -I @ sh -c 'xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
+    cat /root/bounty.sh/output/$domain/results/$domain.txt | xargs -I @ sh -c '/root/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
     cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity critical -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/critical.txt
     cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity high -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/high.txt
     cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity medium -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/medium.txt
