@@ -68,14 +68,14 @@ vuln2() {
     cat /root/bounty.sh/output/$domain/subs.txt | httpx -silent | anew /root/bounty.sh/output/$domain/alive.txt
 
     echo -e "$CYAN${BOLD}Parameters finding...${NC}"
-    paramspider -l /root/bounty.sh/output/$domain/alive.txt && mv results /root/bounty.sh/output/$domain/ 
+    paramspider -l /root/bounty.sh/output/$domain/alive.txt && mv results /root/bounty.sh/output/$domain/ && cd results/ && cat * | anew /root/bounty.sh/output/$domain/params.txt
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    cat /root/bounty.sh/output/$domain/results/$domain.txt | xargs -I @ sh -c '/root/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
-    cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity critical -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/critical.txt
-    cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity high -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/high.txt
-    cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity medium -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/medium.txt
-    cat /root/bounty.sh/output/$domain/results/$domain.txt | nuclei -t /root/nuclei-templates -severity low -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/low.txt
+    cat /root/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c '/root/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
+    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity critical -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/critical.txt
+    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity high -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/high.txt
+    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity medium -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/medium.txt
+    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity low -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/low.txt
 }
 
 if [ "$1" == "--vuln1" ]; then
