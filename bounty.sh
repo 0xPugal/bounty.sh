@@ -34,48 +34,48 @@ domain=$2
 #    help
 #fi
 
-mkdir -p /root/bounty.sh/output/$domain
-mkdir -p /root/bounty.sh/output/$domain/xray
-mkdir -p /root/bounty.sh/output/$domain/nuclei
+mkdir -p ~/bounty.sh/output/$domain
+mkdir -p ~/bounty.sh/output/$domain/xray
+mkdir -p ~/bounty.sh/output/$domain/nuclei
 
 vuln1() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
-    subfinder -d $domain -silent -all | anew /root/bounty.sh/output/$domain/subs.txt
-    assetfinder -subs-only $domain | anew /root/bounty.sh/output/$domain/subs.txt
-    amass enum -passive -d $domain | anew /root/bounty.sh/output/$domain/subs.txt
+    subfinder -d $domain -silent -all | anew ~/bounty.sh/output/$domain/subs.txt
+    assetfinder -subs-only $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    amass enum -passive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
 
     echo -e "$CYAN${BOLD}Port Scanning...${NC}"
-    cat /root/bounty.sh/output/$domain/subs.txt | naabu -top-ports full -silent | anew /root/bounty.sh/output/$domain/open-ports.txt
+    cat ~/bounty.sh/output/$domain/subs.txt | naabu -top-ports full -silent | anew ~/bounty.sh/output/$domain/open-ports.txt
     
     echo -e "$CYAN${BOLD}HTTP Probing...${NC}"
-    cat /root/bounty.sh/output/$domain/open-ports.txt | httpx -silent | anew /root/bounty.sh/output/$domain/alive.txt   
+    cat ~/bounty.sh/output/$domain/open-ports.txt | httpx -silent | anew ~/bounty.sh/output/$domain/alive.txt   
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    cat /root/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c '/root/bounty.sh/tools/./xray_linux_amd64 ws --basic-crawler $i --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
-    cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity critical -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/critical.txt
-    cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity high -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/high.txt
-    cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity medium -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/medium.txt
-    cat /root/bounty.sh/output/$domain/alive.txt | nuclei -t /root/nuclei-templates -severity low -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/low.txt
+    cat ~/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c '~/bounty.sh/tools/./xray_linux_amd64 ws --basic-crawler $i --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho ~/bounty.sh/output/$domain/xray/$(date +"%T").html'
+    cat ~/bounty.sh/output/$domain/alive.txt | nuclei -t ~/nuclei-templates -severity critical -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/critical.txt
+    cat ~/bounty.sh/output/$domain/alive.txt | nuclei -t ~/nuclei-templates -severity high -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/high.txt
+    cat ~/bounty.sh/output/$domain/alive.txt | nuclei -t ~/nuclei-templates -severity medium -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/medium.txt
+    cat ~/bounty.sh/output/$domain/alive.txt | nuclei -t ~/nuclei-templates -severity low -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/low.txt
 }
 
 vuln2() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
-    subfinder -d $domain -silent -all | anew /root/bounty.sh/output/$domain/subs.txt
-    assetfinder -subs-only $domain | anew /root/bounty.sh/output/$domain/subs.txt
-    amass enum -passive -d $domain | anew /root/bounty.sh/output/$domain/subs.txt
+    subfinder -d $domain -silent -all | anew ~/bounty.sh/output/$domain/subs.txt
+    assetfinder -subs-only $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    amass enum -passive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
 
     echo -e "$CYAN${BOLD}HTTP Probing...${NC}"
-    cat /root/bounty.sh/output/$domain/subs.txt | httpx -silent | anew /root/bounty.sh/output/$domain/alive.txt
+    cat ~/bounty.sh/output/$domain/subs.txt | httpx -silent | anew ~/bounty.sh/output/$domain/alive.txt
 
     echo -e "$CYAN${BOLD}Parameters finding...${NC}"
-    paramspider -l /root/bounty.sh/output/$domain/alive.txt && mv results /root/bounty.sh/output/$domain/ && cd results/ && cat * | anew /root/bounty.sh/output/$domain/params.txt
+    paramspider -l ~/bounty.sh/output/$domain/alive.txt && mv results ~/bounty.sh/output/$domain/ && cd results/ && cat * | anew ~/bounty.sh/output/$domain/params.txt
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    cat /root/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c '/root/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho /root/bounty.sh/output/$domain/xray/$(date +"%T").html'
-    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity critical -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/critical.txt
-    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity high -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/high.txt
-    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity medium -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/medium.txt
-    cat /root/bounty.sh/output/$domain/params.txt | nuclei -t /root/nuclei-templates -severity low -etags ssl | anew /root/bounty.sh/output/$domain/nuclei/low.txt
+    cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c '~/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho ~/bounty.sh/output/$domain/xray/$(date +"%T").html'
+    cat ~/bounty.sh/output/$domain/params.txt | nuclei -t ~/nuclei-templates -severity critical -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/critical.txt
+    cat ~/bounty.sh/output/$domain/params.txt | nuclei -t ~/nuclei-templates -severity high -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/high.txt
+    cat ~/bounty.sh/output/$domain/params.txt | nuclei -t ~/nuclei-templates -severity medium -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/medium.txt
+    cat ~/bounty.sh/output/$domain/params.txt | nuclei -t ~/nuclei-templates -severity low -etags ssl | anew ~/bounty.sh/output/$domain/nuclei/low.txt
 }
 
 if [ "$1" == "--vuln1" ]; then
