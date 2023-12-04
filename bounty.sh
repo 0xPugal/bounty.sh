@@ -30,7 +30,7 @@ do
     key="$1"
     case $key in
         --help)
-            display_help
+            help
             ;;
         --vuln1)
             domain="$2"
