@@ -18,9 +18,9 @@ echo -e "$CYAN${BOLD} Bug Bounty automation script - $$$ by @0xPugazh      ${NC}
 echo " "
 help() {
     echo -e "$CYAN${BOLD}Usage:${NC}"
-    echo -e "${BOLD}--help            Shows the help menu${NC}"
-    echo -e "${BOLD}--vuln1           Subs + port + alive + xray + nuclei${NC}"
-    echo -e "${BOLD}--vuln2           Subs + alive + params + xray + nuclei_fuzzing${NC}"
+    echo -e "${BOLD}    --help            Shows the help menu${NC}"
+    echo -e "${BOLD}    --vuln1           Subs + port + alive + xray + nuclei${NC}"
+    echo -e "${BOLD}    --vuln2           Subs + alive + params + xray + nuclei_fuzzing${NC}"
     exit 0
 }
 
