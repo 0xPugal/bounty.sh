@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "Install Golang before install these tools"
-sleep 2
+mkdir tools
 
 ## Installing dependencies
 sudo apt update -y
@@ -18,10 +17,13 @@ go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 go install -v github.com/tomnomnom/anew@latest
 
+## installing paramspider
+cd tools && git clone https://github.com/devanshbatham/paramspider
+cd paramspider
+pip install .
+cd ../
+
 ## installing xray
-mkdir tools && cd tools
+cd tools
 wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip
 unzip xray_linux_amd64.zip
-cp * /usr/bin/
-xray_linux_amd64
-xray_linux_amd64
