@@ -19,8 +19,8 @@ echo " "
 help() {
     echo -e "$CYAN${BOLD}Usage:${NC}"
     echo -e "${BOLD}    --help            Shows the help menu${NC}"
-    echo -e "${BOLD}    --vuln1           Subs + port + alive + xray + nuclei${NC}"
-    echo -e "${BOLD}    --vuln2           Subs + alive + params + xray + nuclei_fuzzing${NC}"
+    echo -e "${BOLD}    --vuln1           Subenum + portscan + alive + vuln${NC}"
+    echo -e "${BOLD}    --vuln2           Subenum + alive + params + vuln${NC}"
     exit 0
 }
 
@@ -68,7 +68,7 @@ vuln2() {
     cat ~/bounty.sh/output/$domain/subs.txt | httpx -silent | anew ~/bounty.sh/output/$domain/alive.txt
 
     echo -e "$CYAN${BOLD}Parameters finding...${NC}"
-    paramspider -l ~/bounty.sh/output/$domain/alive.txt && mv results ~/bounty.sh/output/$domain/ && cd results/ && cat * | anew ~/bounty.sh/output/$domain/params.txt
+    paramspider -l ~/bounty.sh/output/$domain/alive.txt && mv results ~/bounty.sh/output/$domain/ && cd results/ && cat * > ~/bounty.sh/output/$domain/params.txt
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
     cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c '~/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho ~/bounty.sh/output/$domain/xray/$(date +"%T").html'
