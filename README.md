@@ -13,9 +13,9 @@ $ ./bounty.sh
 ```
 
 
-## prerequisites
+## Prerequisites
 + Download and Install golang from https://go.dev/doc/install
-+ install xray manually if any error occurs
++ Install and configure Xray manually if any error occurs
 
 ## Installation
 ```
@@ -27,7 +27,10 @@ chmod +x install.sh bounty.sh
 
 ## Usage
 ```
-./bounty.sh target.com
+Usage:
+--help            Shows the help menu
+--vuln1           Subs + port + alive + xray + nuclei
+--vuln2           Subs + alive + params + xray + nuclei_fuzzing
 ```
 
 ## Credits
