@@ -50,7 +50,8 @@ vuln1() {
     httpx -silent -l ~/bounty.sh/output/$domain/open-ports.txt | anew ~/bounty.sh/output/$domain/alive.txt   
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    cat ~/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c '~/bounty.sh/tools/./xray_linux_amd64 ws --basic-crawler $i --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho ~/bounty.sh/output/$domain/xray/$(date +"%T").html'
+    cd ~/bounty.sh/tools/
+    cat ~/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c './xray_linux_amd64 ws --basic-crawler @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --ho ~/bounty.sh/output/$domain/xray/@.html'
     nuclei -l ~/bounty.sh/output/$domain/alive.txt -t ~/nuclei-templates -es info,unknown -etags ssl | anew ~/bounty.sh/output/$domain/nuclei.txt
 }
 
@@ -69,7 +70,8 @@ vuln2() {
     cat ~/bounty.sh/output/$domain/results/* > ~/bounty.sh/output/$domain/params.txt
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
-    cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c '~/bounty.sh/tools/./xray_linux_amd64 ws --url-list @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal --ho ~/bounty.sh/output/$domain/xray/$(date +"%T").html'
+    cd ~/bounty.sh/tools/
+    cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c './xray_linux_amd64 ws --url @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --ho ~/bounty.sh/output/$domain/xray/@.html'
     nuclei ~/bounty.sh/output/$domain/params.txt -t ~/nuclei-templates -es info,unknown -etags ssl | anew ~/bounty.sh/output/$domain/nuclei.txt
 }
 
