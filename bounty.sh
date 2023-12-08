@@ -51,7 +51,7 @@ vuln1() {
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
     cd ~/bounty.sh/tools/
-    cat ~/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c './xray_linux_amd64 ws --basic-crawler @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --ho ~/bounty.sh/output/$domain/xray/@.html'
+    cat ~/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c './xray_linux_amd64 ws --basic-crawler @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --html-output ~/bounty.sh/output/$domain/xray/"xray_$(echo @ | tr / _).html"'
     nuclei -l ~/bounty.sh/output/$domain/alive.txt -t ~/nuclei-templates -es info,unknown -etags ssl | anew ~/bounty.sh/output/$domain/nuclei.txt
 }
 
@@ -71,7 +71,7 @@ vuln2() {
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
     cd ~/bounty.sh/tools/
-    cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c './xray_linux_amd64 ws --url @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --ho ~/bounty.sh/output/$domain/xray/@.html'
+    cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c './xray_linux_amd64 ws --url @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --html-output ~/bounty.sh/output/$domain/xray/"xray_$(echo @ | tr / _).html"'
     nuclei ~/bounty.sh/output/$domain/params.txt -t ~/nuclei-templates -es info,unknown -etags ssl | anew ~/bounty.sh/output/$domain/nuclei.txt
 }
 
