@@ -41,25 +41,27 @@ vuln1() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
     subfinder -d $domain -silent -all | anew ~/bounty.sh/output/$domain/subs.txt
     assetfinder -subs-only $domain | anew ~/bounty.sh/output/$domain/subs.txt
-    amass enum -passive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    amass enum -passive -noaltdns -norecursive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    findomain --taget $domain --quiet | anew ~/bounty.sh/output/$domain/subs.txt
 
     echo -e "$CYAN${BOLD}Port Scanning...${NC}"
-    naabu -silent -l ~/bounty.sh/output/$domain/subs.txt | anew ~/bounty.sh/output/$domain/open-ports.txt
+    naabu -silent -l ~/bounty.sh/output/$domain/subs.txt -rate 3000 | anew ~/bounty.sh/output/$domain/open-ports.txt
     
     echo -e "$CYAN${BOLD}HTTP Probing...${NC}"
-    httpx -silent -l ~/bounty.sh/output/$domain/open-ports.txt | anew ~/bounty.sh/output/$domain/alive.txt   
+    httpx -silent -l ~/bounty.sh/output/$domain/open-ports.txt -threads 300 | anew ~/bounty.sh/output/$domain/alive.txt   
 
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
     cd ~/bounty.sh/tools/
     cat ~/bounty.sh/output/$domain/alive.txt | xargs -I @ sh -c './xray_linux_amd64 ws --basic-crawler @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --html-output ~/bounty.sh/output/$domain/xray/"xray_$(echo @ | tr / _).html"'
-    nuclei -l ~/bounty.sh/output/$domain/alive.txt -t ~/nuclei-templates -es info,unknown -etags ssl | anew ~/bounty.sh/output/$domain/nuclei.txt
+    nuclei -l ~/bounty.sh/output/$domain/alive.txt -t ~/nuclei-templates -es info,unknown -etags ssl,code,tcp,javascript,whois | anew ~/bounty.sh/output/$domain/nuclei.txt
 }
 
 vuln2() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
     subfinder -d $domain -silent -all | anew ~/bounty.sh/output/$domain/subs.txt
     assetfinder -subs-only $domain | anew ~/bounty.sh/output/$domain/subs.txt
-    amass enum -passive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    amass enum -passive -norecursive -noaltdns -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    findomain --target $domain --quiet | anew ~/bounty.sh/output/$domain/subs.txt
 
     echo -e "$CYAN${BOLD}HTTP Probing...${NC}"
     httpx -silent -l ~/bounty.sh/output/$domain/subs.txt | anew ~/bounty.sh/output/$domain/alive.txt
@@ -72,7 +74,7 @@ vuln2() {
     echo -e "$CYAN${BOLD}Vulnerability Scanning...${NC}"
     cd ~/bounty.sh/tools/
     cat ~/bounty.sh/output/$domain/params.txt | xargs -I @ sh -c './xray_linux_amd64 ws --url @ --plugins xss,sqldet,xxe,ssrf,cmd-injection,path-traversal,crlf-injection,dirscan --html-output ~/bounty.sh/output/$domain/xray/"xray_$(echo @ | tr / _).html"'
-    nuclei ~/bounty.sh/output/$domain/params.txt -t ~/nuclei-templates -es info,unknown -etags ssl | anew ~/bounty.sh/output/$domain/nuclei.txt
+    nuclei ~/bounty.sh/output/$domain/params.txt -t ~/nuclei-templates -es info,unknown -etags ssl,tcp,code,javascript,whois | anew ~/bounty.sh/output/$domain/nuclei.txt
 }
 
 if [ "$1" == "--vuln1" ]; then
