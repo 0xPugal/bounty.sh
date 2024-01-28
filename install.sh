@@ -24,6 +24,13 @@ cd paramspider
 sudo pip install .
 cd ../
 
+## installing findomain
+cd tools && git clone https://github.com/findomain/findomain.git
+cd findomain
+cargo build --release
+sudo cp target/release/findomain /usr/bin/
+cd ../
+
 ## installing xray
 cd tools
 wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip
