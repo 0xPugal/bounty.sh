@@ -33,5 +33,8 @@ Usage:
 --vuln2           Subs + alive + params + xray + nuclei_fuzzing
 ```
 
+### Get 200$ credits on DO
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=87789189e3ea&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 ## Credits
 Inspired from https://medium.com/@0xelkot/how-i-get-10-sqli-and-30-xss-via-automation-tool-cebbd9104479
