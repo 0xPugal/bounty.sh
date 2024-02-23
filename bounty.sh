@@ -41,7 +41,7 @@ vuln1() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
     subfinder -d $domain -silent -all | anew ~/bounty.sh/output/$domain/subs.txt
     assetfinder -subs-only $domain | anew ~/bounty.sh/output/$domain/subs.txt
-    amass enum -passive -noaltdns -norecursive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    amass enum -passive -noalts -norecursive -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
     findomain --taget $domain --quiet | anew ~/bounty.sh/output/$domain/subs.txt
 
     echo -e "$CYAN${BOLD}Port Scanning...${NC}"
@@ -60,7 +60,7 @@ vuln2() {
     echo -e "$CYAN${BOLD}Subdomain Enumeration...${NC}"
     subfinder -d $domain -silent -all | anew ~/bounty.sh/output/$domain/subs.txt
     assetfinder -subs-only $domain | anew ~/bounty.sh/output/$domain/subs.txt
-    amass enum -passive -norecursive -noaltdns -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
+    amass enum -passive -norecursive -noalts -d $domain | anew ~/bounty.sh/output/$domain/subs.txt
     findomain --target $domain --quiet | anew ~/bounty.sh/output/$domain/subs.txt
 
     echo -e "$CYAN${BOLD}HTTP Probing...${NC}"
