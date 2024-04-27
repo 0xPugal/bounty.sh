@@ -1,4 +1,4 @@
-# Bounty.sh [![Twitter](https://img.shields.io/badge/0xPugal-%231DA1F2.svg?logo=Twitter&logoColor=white)](https://twitter.com/0xPugal) [![LinkedIn](https://img.shields.io/badge/0xPugazh-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/0xPugazh)
+# Bounty.sh
 A simple bash script to do bug bounty automation against your target and helps to earn some $$$.
 ```
 $ ./bounty.sh
@@ -9,7 +9,7 @@ $ ./bounty.sh
 /_____/\____/\__,_/_/ /_/\__/\__, (_)____/_/ /_/ 
                             /____/             
 
-   Bug Bounty automation script - $$$ by @0xPugazh
+   Bug Bounty automation script - $$$ by @0xPugal
 ```
 
 
@@ -32,9 +32,6 @@ Usage:
 --vuln1           Subs + port + alive + xray + nuclei
 --vuln2           Subs + alive + params + xray + nuclei_fuzzing
 ```
-
-### Get 200$ credits on DO
-[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=87789189e3ea&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 ## Credits
 Inspired from https://medium.com/@0xelkot/how-i-get-10-sqli-and-30-xss-via-automation-tool-cebbd9104479
